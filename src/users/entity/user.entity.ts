@@ -17,10 +17,10 @@ export class User {
   name: string;
 
   @Column({ unique: true })
-  email: string;
+  captcha: string;
 
   @Column()
-  password: string;
+  psw: string;
 
   @Column()
   @CreateDateColumn()
@@ -35,13 +35,13 @@ export class User {
   */
   @BeforeInsert()
   async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 8);
+    this.psw = await bcrypt.hash(this.psw, 8);
   }
 
   /*  
     比对加密的bcrypt.hash
   */
   async validatePassword(password: string): Promise<boolean> {
-    return bcrypt.compare(password, this.password);
+    return bcrypt.compare(password, this.psw);
   }
 }

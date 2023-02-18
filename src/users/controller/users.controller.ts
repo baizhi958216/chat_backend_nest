@@ -1,5 +1,7 @@
+import { Logger } from '@nestjs/common';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { IUserLogin } from '../service/IUserForm.interface';
 import { UsersService } from '../service/users.service';
 
 @Controller('users')
@@ -22,15 +24,11 @@ export class UsersController {
     return this.usersService.findUserByID(id);
   }
 
-  //   通过ID登录
-  @Post('/api/loginByID')
-  LoginByID(@Body('id') id: number) {
-    return this.usersService.loginUserByID(id);
-  }
-
-  //   通过邮箱登录
-  @Post('/api/loginByEmail')
-  LoginByEmail(@Body('email') email: string) {
-    return this.usersService.loginUserByEmail(email);
+  @Post('/api/userlogin')
+  UserLogin(
+    @Body()
+    userform: IUserLogin,
+  ) {
+    return this.usersService.userLogin(userform);
   }
 }

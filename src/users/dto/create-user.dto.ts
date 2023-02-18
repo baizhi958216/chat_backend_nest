@@ -8,9 +8,15 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 */
 
 export class CreateUserDto {
-  @IsEmail()
-  email: string;
+  @IsNotEmpty()
+  name: string;
 
   @IsNotEmpty()
-  password: string;
+  psw: string;
+
+  @IsEmail()
+  captcha: string;
+
+  @IsNotEmpty()
+  wait_number: string;
 }
