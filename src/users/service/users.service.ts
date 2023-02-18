@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entity/user.entity';
 import { IUserLogin } from './IUserForm.interface';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -16,6 +17,7 @@ export class UsersService {
   // 新增用户
   async createUser(createUserDto: CreateUserDto) {
     const logger = new Logger();
+    logger.warn(`用户邮箱: ${createUserDto.captcha} 请求注册新用户...`);
     try {
       const email = await this.usersRepository.findOne({
         where: {
@@ -25,8 +27,14 @@ export class UsersService {
       if (email) {
         return Format.getInstance().message(400, '该邮箱已存在');
       }
+      createUserDto.psw = await bcrypt.hash(
+        createUserDto.psw,
+        parseInt(process.env.BCRYPT_SALT),
+      );
       const user = await this.usersRepository.save(createUserDto);
-      logger.warn(`注册新用户 ${user.id}`);
+      logger.warn(
+        `用户邮箱: ${createUserDto.captcha} 注册新用户ID ${user.id} 名称 ${user.name} 成功!`,
+      );
       return Format.getInstance().message(200, '注册成功');
     } catch (err) {
       logger.error(err);
@@ -59,12 +67,13 @@ export class UsersService {
 
       // TODO: 验证码
 
-      if (user.psw === psw) {
+      const hashedpsw = await bcrypt.compare(psw, user.psw);
+      if (hashedpsw) {
         delete user.psw;
-        logger.log(`用户ID${userform.id}登录成功......`);
+        logger.log(`用户ID: ${userform.id} 登录成功......`);
         return Format.getInstance().message(200, user);
       } else {
-        logger.warn(`用户ID${userform.id}登录失败, 密码错误......`);
+        logger.warn(`用户ID: ${userform.id} 登录失败, 密码错误......`);
         return Format.getInstance().message(401, {});
       }
     } catch (err) {
