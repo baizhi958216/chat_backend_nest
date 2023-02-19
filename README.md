@@ -43,6 +43,7 @@ REDIS_HOST=redis地址
 REDIS_PORT=redis端口
 
 MAIL_USER=用于发送验证码的邮箱地址
+MAIL_SENDER=发件人(格式: "昵称" <邮箱>)
 MAIL_SMTP=SMTP通行证
 ```
 

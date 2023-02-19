@@ -20,7 +20,7 @@ const sendMail = async (
     },
   });
   const mailOptions = {
-    from: '"夏" <958216793@qq.com>', // 发件人
+    from: `${process.env.MAIL_SENDER}`, // 发件人
     to: `${user}`, // 收件人
     subject: '欢迎注册立交桥', // 主题
     text: `您的验证码是 ${str}`,

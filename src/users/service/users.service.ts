@@ -6,6 +6,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entity/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { UserLoginDto } from '../dto/user-login.dto';
+import { client } from 'src/utils/redis.utils';
 
 @Injectable()
 export class UsersService {
@@ -18,22 +19,28 @@ export class UsersService {
   async createUser(createUserDto: CreateUserDto) {
     const logger = new Logger();
     logger.warn(`用户邮箱: ${createUserDto.captcha} 请求注册新用户...`);
+    const { name, captcha, wait_number } = createUserDto;
     try {
       const email = await this.usersRepository.findOne({
         where: {
-          captcha: createUserDto.captcha,
+          captcha: captcha,
         },
       });
       if (email) {
         return Format.getInstance().message(400, '该邮箱已存在');
       }
+
+      if (wait_number != (await client.get(captcha))) {
+        return Format.getInstance().message(400, '验证码错误');
+      }
+
       createUserDto.psw = await bcrypt.hash(
         createUserDto.psw,
         parseInt(process.env.BCRYPT_SALT),
       );
       const user = await this.usersRepository.save(createUserDto);
       logger.warn(
-        `用户邮箱: ${createUserDto.captcha} 注册新用户ID ${user.id} 名称 ${user.name} 成功!`,
+        `用户邮箱: ${createUserDto.captcha} 注册新用户ID ${user.id} 名称 ${name} 成功!`,
       );
       return Format.getInstance().message(200, '注册成功');
     } catch (err) {
@@ -65,7 +72,9 @@ export class UsersService {
         return Format.getInstance().message(402, '登录失败, 该用户不存在');
       }
 
-      // TODO: 验证码
+      if (wait_number != (await client.get(captcha))) {
+        return Format.getInstance().message(400, '验证码错误');
+      }
 
       const hashedpsw = await bcrypt.compare(psw, user.psw);
       if (hashedpsw) {
