@@ -26,6 +26,26 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript repository for [Green-Hair](https://github.com/Green-Hair).
 
+## 添加 mysql/radis/SMTP 配置信息
+
+```bash
+# 在当前目录新建.env文件, 内容如下
+DB_TYPE=mysql
+DB_HOST=mysql地址
+DB_PORT=mysql端口
+DB_USERNAME=mysql用户名
+DB_PASSWORD=mysql密码
+DB_NAME=数据库名
+
+BCRYPT_SALT=bcrypt加盐轮循次数
+
+REDIS_HOST=redis地址
+REDIS_PORT=redis端口
+
+MAIL_USER=用于发送验证码的邮箱地址
+MAIL_SMTP=SMTP通行证
+```
+
 ## 配置依赖
 
 ```bash
