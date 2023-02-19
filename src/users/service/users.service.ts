@@ -4,8 +4,8 @@ import { Format } from 'src/utils/format.util';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entity/user.entity';
-import { IUserLogin } from './IUserForm.interface';
 import * as bcrypt from 'bcryptjs';
+import { UserLoginDto } from '../dto/user-login.dto';
 
 @Injectable()
 export class UsersService {
@@ -50,10 +50,10 @@ export class UsersService {
     });
   }
 
-  async userLogin(userform: IUserLogin) {
+  async userLogin(userLoginDto: UserLoginDto) {
     const logger = new Logger();
-    logger.warn(`用户ID: ${userform.id} 请求登录......`);
-    const { id, psw, captcha, wait_number } = userform;
+    logger.warn(`用户ID: ${userLoginDto.id} 请求登录......`);
+    const { id, psw, captcha, wait_number } = userLoginDto;
     try {
       const user = await this.usersRepository.findOne({
         where: {
@@ -70,10 +70,10 @@ export class UsersService {
       const hashedpsw = await bcrypt.compare(psw, user.psw);
       if (hashedpsw) {
         delete user.psw;
-        logger.log(`用户ID: ${userform.id} 登录成功......`);
+        logger.log(`用户ID: ${id} 登录成功......`);
         return Format.getInstance().message(200, user);
       } else {
-        logger.warn(`用户ID: ${userform.id} 登录失败, 密码错误......`);
+        logger.warn(`用户ID: ${id} 登录失败, 密码错误......`);
         return Format.getInstance().message(401, {});
       }
     } catch (err) {

@@ -8,31 +8,31 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
     密码
 */
 
-export class CreateUserDto {
+export class UserLoginDto {
   @ApiProperty({
-    example: 'test',
-    description: '用户昵称',
+    example: '1',
+    description: '用户ID',
   })
   @IsNotEmpty()
-  name: string;
+  id: number;
 
   @ApiProperty({
     example: 'testtest',
-    description: '用户注册密码',
+    description: '用户登录密码',
   })
   @IsNotEmpty()
   psw: string;
 
   @ApiProperty({
-    example: 'testtest',
-    description: '用户注册邮箱',
+    example: 'test@test.com',
+    description: '用户登录邮箱',
   })
   @IsEmail()
   captcha: string;
 
   @ApiProperty({
-    example: 'testtest',
-    description: '用户注册邮箱验证码',
+    example: '2er4',
+    description: '用户登录邮箱验证码',
   })
   @IsNotEmpty()
   wait_number: string;

@@ -4,10 +4,10 @@ import { CreateEmailDto } from '../dto/create-email.dto';
 @Injectable()
 export class EmailService {
   createRegister(createEmailDto: CreateEmailDto) {
-    return 'This action adds a new email';
+    return createEmailDto.captcha;
   }
 
   createLogin(createEmailDto: CreateEmailDto) {
-    return 'This action adds a new email';
+    return createEmailDto.captcha;
   }
 }
