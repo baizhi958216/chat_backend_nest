@@ -1,10 +1,9 @@
-import { Logger } from '@nestjs/common';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { IUserLogin } from '../service/IUserForm.interface';
 import { UsersService } from '../service/users.service';
 
-@Controller('users')
+@Controller('/api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -13,7 +12,7 @@ export class UsersController {
     return 'Hi';
   }
 
-  @Post('/api/createUser')
+  @Post('/createUser')
   CreateUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
@@ -24,7 +23,7 @@ export class UsersController {
     return this.usersService.findUserByID(id);
   }
 
-  @Post('/api/userlogin')
+  @Post('/userlogin')
   UserLogin(
     @Body()
     userform: IUserLogin,
