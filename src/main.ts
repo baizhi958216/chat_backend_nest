@@ -4,6 +4,7 @@ import { Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { client } from './utils/redis.utils';
 
 const port = process.env.PORT || 3000;
 
@@ -15,6 +16,9 @@ async function bootstrap() {
   // StaticAssets
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
+  // Redis
+  await client.connect();
+
   // Swagger
   const config = new DocumentBuilder()
     .setTitle('立交桥即时聊天后端')
@@ -25,6 +29,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
-  Logger.log(`🚀 服务端已开启 http://localhost:${port}`, 'Bootstrap');
+  Logger.debug(`🚀 服务端已开启 http://localhost:${port}`, 'Bootstrap');
 }
 bootstrap();
