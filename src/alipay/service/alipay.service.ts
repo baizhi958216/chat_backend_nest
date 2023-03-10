@@ -12,10 +12,13 @@ export class AlipayService {
       body: '商品详情', // 订单描述
       total_amount: '59999.00', // 订单总金额，单位为元，精确到小数点后两位
     };
-    const result = alipaySdk.pageExec('alipay.trade.page.pay', {
-      method: 'GET',
-      bizContent,
-    });
+    const result = alipaySdk(process.env.APPID).pageExec(
+      'alipay.trade.page.pay',
+      {
+        method: 'GET',
+        bizContent,
+      },
+    );
     return result;
   }
 }
