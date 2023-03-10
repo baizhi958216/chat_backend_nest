@@ -26,6 +26,19 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript repository for [Green-Hair](https://github.com/Green-Hair).
 
+## 添加支付宝应用私钥、支付宝根证书、支付宝公钥证书和应用公钥证书。
+
+```
+#至src/alipay/certs
+-src
+  -alipay
+    -certs
+      alipayPublicCert.crt
+      alipayRootCert.crt
+      appPublicCert.crt
+      private-key.pem
+```
+
 ## 添加 mysql/radis/SMTP 配置信息
 
 ```bash
@@ -45,6 +58,8 @@ REDIS_PORT=redis端口
 MAIL_USER=用于发送验证码的邮箱地址
 MAIL_SENDER=发件人(格式: "昵称" <邮箱>)
 MAIL_SMTP=SMTP通行证
+
+APPID=支付宝APPID
 ```
 
 ## 配置依赖

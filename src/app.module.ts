@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './users/entity/user.entity';
 import { EmailModule } from './email/email.module';
+import { AlipayModule } from './alipay/alipay.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { EmailModule } from './email/email.module';
     }),
     UsersModule,
     EmailModule,
+    AlipayModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],
