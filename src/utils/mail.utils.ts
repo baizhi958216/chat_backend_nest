@@ -4,11 +4,13 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
  *
  * @param user 用户邮箱
  * @param str 验证码
+ * @param mode 0注册 1登录
  * @returns
  */
 const sendMail = async (
   user: string,
   str: string,
+  mode: number,
 ): Promise<SMTPTransport.SentMessageInfo> => {
   const transport = createTransport({
     host: 'smtp.qq.com',
@@ -22,7 +24,7 @@ const sendMail = async (
   const mailOptions = {
     from: `${process.env.MAIL_SENDER}`, // 发件人
     to: `${user}`, // 收件人
-    subject: '欢迎注册立交桥', // 主题
+    subject: mode == 0 ? '欢迎注册立交桥' : '欢迎登录立交桥', // 主题
     text: `您的验证码是 ${str}`,
     html: `<p align="center">您的验证码是 ${str}</p>`,
   };

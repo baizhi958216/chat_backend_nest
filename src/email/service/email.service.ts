@@ -13,7 +13,7 @@ export class EmailService {
       str += strArr[Math.floor(Math.random() * strArr.length)];
     }
 
-    const { response } = await sendMail(createEmailDto.captcha, str);
+    const { response } = await sendMail(createEmailDto.captcha, str, 0);
     Logger.warn(
       `向 ${createEmailDto.captcha} 发送注册验证码 ${str}, 状态 ${response}`,
     );
@@ -34,7 +34,7 @@ export class EmailService {
       str += strArr[Math.floor(Math.random() * strArr.length)];
     }
 
-    const { response } = await sendMail(createEmailDto.captcha, str);
+    const { response } = await sendMail(createEmailDto.captcha, str, 1);
     Logger.warn(
       `向 ${createEmailDto.captcha} 发送登录验证码 ${str}, 状态 ${response}`,
     );
