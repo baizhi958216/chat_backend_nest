@@ -39,7 +39,7 @@
       private-key.pem
 ```
 
-## 添加 mysql/radis/SMTP 配置信息
+## 添加 mysql/radis/SMTP/支付宝 APPID/OpenAI 配置信息
 
 ```bash
 # 在当前目录新建.env文件, 内容如下
@@ -60,6 +60,9 @@ MAIL_SENDER=发件人(格式: "昵称" <邮箱>)
 MAIL_SMTP=SMTP通行证
 
 APPID=支付宝APPID
+
+# https://platform.openai.com/account/api-keys
+OPENAI_API_KEY=由OPENAI提供的APIKEY
 ```
 
 ## 配置依赖

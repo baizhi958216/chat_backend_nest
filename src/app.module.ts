@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './users/entity/user.entity';
 import { EmailModule } from './email/email.module';
 import { AlipayModule } from './alipay/alipay.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AlipayModule } from './alipay/alipay.module';
     UsersModule,
     EmailModule,
     AlipayModule,
+    ChatModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],

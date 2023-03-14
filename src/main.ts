@@ -5,6 +5,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { client } from './utils/redis.utils';
+// import { HttpServiceResponseInterceptor } from './interceptor/http-service.response.interceptor';
 
 const port = process.env.PORT || 3000;
 
@@ -15,6 +16,9 @@ async function bootstrap() {
 
   // StaticAssets
   app.useStaticAssets(join(__dirname, '..', 'public'));
+
+  // Interceptors
+  // app.useGlobalInterceptors(new HttpServiceResponseInterceptor());
 
   // Redis
   await client.connect();
