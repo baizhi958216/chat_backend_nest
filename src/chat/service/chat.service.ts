@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { WsMessageDto } from '../dto/ws-message-dto';
+import { MessageDto } from '../dto/message-dto';
 import { Configuration, OpenAIApi } from 'openai';
 
 @Injectable()
 export class ChatService {
-  async createWsMessageDto(inMessage: WsMessageDto) {
+  async createWsMessageDto(inMessage: MessageDto) {
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
     });
