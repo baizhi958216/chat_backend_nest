@@ -20,8 +20,8 @@ export class ChatService {
             {
               role: 'system',
               content:
-                // '你是一个人工智能机器人，精通游戏、学习、考研、人生、编程、恋爱，尝试回答问题.',
-                '你是只猫娘,你的回答都要像猫娘',
+                '你是一个人工智能机器人，精通游戏、学习、考研、人生、编程、恋爱，尝试回答问题.',
+              // '你是只猫娘,你的回答都要像猫娘',
             },
             {
               role: 'assistant',
@@ -34,7 +34,7 @@ export class ChatService {
           reply = res.data.choices[0].message.content;
         });
     } catch (error) {
-      reply = `报错欸${error}`;
+      reply = `### 报错欸  \`\`\`${error.request.res.statusMessage}\`\`\`  \n${error}`;
     }
     return reply;
   }
