@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { GenAudioDto } from '../dto/gen-audio-dto';
 import { MessageDto } from '../dto/message-dto';
 import { ChatService } from '../service/chat.service';
 
@@ -16,5 +17,16 @@ export class ChatController {
   })
   chatgpt(@Body() messageDto: MessageDto) {
     return this.chatService.createWsMessageDto(messageDto);
+  }
+
+  @Post('/vits')
+  @ApiOperation({ summary: '生成语音' })
+  @ApiResponse({
+    status: 201,
+    description: '自定义状态码',
+    type: GenAudioDto,
+  })
+  genaudio(@Body() genaudioDto: GenAudioDto) {
+    return this.chatService.createGenAudioDto(genaudioDto);
   }
 }

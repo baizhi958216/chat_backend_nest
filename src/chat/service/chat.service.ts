@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MessageDto } from '../dto/message-dto';
 import { Configuration, OpenAIApi } from 'openai';
+import { GenAudioDto } from '../dto/gen-audio-dto';
 
 @Injectable()
 export class ChatService {
@@ -10,7 +11,7 @@ export class ChatService {
     });
     const openai = new OpenAIApi(configuration);
 
-    let reply = '';
+    let reply: { message: string; wav: string } | string;
 
     try {
       await openai
@@ -20,8 +21,8 @@ export class ChatService {
             {
               role: 'system',
               content:
-                '你是一个人工智能机器人，精通游戏、学习、考研、人生、编程、恋爱，尝试回答问题.',
-              // '你是只猫娘,你的回答都要像猫娘',
+                // '你是一个人工智能机器人，精通游戏、学习、考研、人生、编程、恋爱，尝试回答问题.',
+                '你是只猫娘,你的回答都要像猫娘',
             },
             {
               role: 'assistant',
@@ -30,12 +31,43 @@ export class ChatService {
             { role: 'user', content: `${inMessage.inMessage}` },
           ],
         })
-        .then((res) => {
-          reply = res.data.choices[0].message.content;
+        .then(async (res) => {
+          reply = {
+            message: res.data.choices[0].message.content,
+            wav: await this.createGenAudioDto({
+              message: res.data.choices[0].message.content,
+              role: 'nahida',
+              language: '简体中文',
+            }),
+          };
         });
     } catch (error) {
       reply = `### 报错欸  \`\`\`${error.request.res.statusMessage}\`\`\`  \n${error}`;
     }
     return reply;
+  }
+  async createGenAudioDto(genaudiodto: GenAudioDto) {
+    try {
+      const rep = await fetch(`${process.env.VITS}/run/predict/`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        mode: 'cors',
+        body: JSON.stringify({
+          data: [
+            genaudiodto.message,
+            genaudiodto.role,
+            genaudiodto.language,
+            1,
+          ],
+          fn_index: 0,
+        }),
+      });
+      const { data } = await rep.json();
+      return data[1].name.split('\\')[6];
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

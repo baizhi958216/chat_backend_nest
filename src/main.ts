@@ -15,6 +15,7 @@ async function bootstrap() {
   });
 
   // StaticAssets
+  app.useStaticAssets(process.env.TEMP);
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
   // Interceptors
