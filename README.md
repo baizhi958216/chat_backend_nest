@@ -74,8 +74,12 @@ $ pnpm install
 ```
 
 ## (可选) Docker服务
-已更新docker-compose脚本部署mysql+redis服务
-```
+### 使用docker请注意:
+- .env中数据库HOST会被docker-compose.yml定义的HOST覆盖
+- .env中MAIL_SENDER需要添加引号包围
+
+已更新docker-compose脚本部署nestservice+mysql+redis服务
+```bash
 docker-compose up
 ```
 

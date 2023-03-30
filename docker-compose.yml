@@ -1,5 +1,21 @@
 version: "3.8"
 services:
+  nestapi:
+    environment:
+      REDIS_HOST: redis
+      DB_HOST: mysql
+    container_name: chat_backend_nest
+    build: .
+    command: pnpm start:dev
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
   redis:
     image: redis:latest
     container_name: chat_redis
