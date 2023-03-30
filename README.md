@@ -73,6 +73,12 @@ VITS=VITS后端地址
 $ pnpm install
 ```
 
+## (可选) Docker服务
+已更新docker-compose脚本部署mysql+redis服务
+```
+docker-compose up
+```
+
 ## 开启服务
 
 ```bash
