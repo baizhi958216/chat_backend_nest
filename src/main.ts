@@ -15,7 +15,7 @@ async function bootstrap() {
   });
 
   // StaticAssets
-  app.useStaticAssets(process.env.TEMP);
+  app.useStaticAssets(`${process.env.HOME=='/root'?'/tmp':process.env.TEMP}`);
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
   // Interceptors
