@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { MessageDto } from '../dto/message-dto';
+import { GptMessageDto } from '../dto/gpt-message-dto';
 import { Configuration, OpenAIApi } from 'openai';
 import { GenAudioDto } from '../dto/gen-audio-dto';
 
 @Injectable()
 export class ChatService {
-  async createWsMessageDto(inMessage: MessageDto) {
+  /**
+   *
+   * @deprecated ChatGPT接口
+   *
+   */
+  async createGPTMessageDto(inMessage: GptMessageDto) {
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
     });
@@ -46,6 +51,11 @@ export class ChatService {
     }
     return reply;
   }
+  /**
+   *
+   * @deprecated VITS语音生成接口
+   *
+   */
   async createGenAudioDto(genaudiodto: GenAudioDto) {
     try {
       const rep = await fetch(`${process.env.VITS}/run/predict/`, {

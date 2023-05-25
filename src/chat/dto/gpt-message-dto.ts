@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-export class MessageDto {
+export class GptMessageDto {
   @ApiProperty({
     example: '苹果的英文是什么?',
     description: '需要回复的问题',

@@ -4,14 +4,20 @@ import {
   WebSocketGateway,
 } from '@nestjs/websockets';
 import { ChatService } from '../service/chat.service';
-import { MessageDto } from '../dto/message-dto';
+import { GptMessageDto } from '../dto/gpt-message-dto';
 
 @WebSocketGateway({ cors: true })
 export class ChatGateway {
   constructor(private readonly chatService: ChatService) {}
-  @SubscribeMessage('inMessage')
-  async inMessage(@MessageBody() createWsMessageDto: MessageDto) {
-    return this.chatService.createWsMessageDto(
+
+  /**
+   *
+   * @deprecated ChatGPT接口
+   *
+   */
+  @SubscribeMessage('inGPTMessage')
+  async inGPTMessage(@MessageBody() createWsMessageDto: GptMessageDto) {
+    return this.chatService.createGPTMessageDto(
       JSON.parse(createWsMessageDto.toString()),
     );
   }
