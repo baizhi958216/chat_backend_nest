@@ -1,5 +1,5 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 /**
  * 全局WebSocket服务响应拦截器
@@ -11,6 +11,6 @@ export class WsServiceResponseInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
-    throw new Error('Method not implemented.');
+    return next.handle();
   }
 }
